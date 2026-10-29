@@ -1,0 +1,94 @@
+set main-view-date = custom
+set main-view-date-format = "%Y-%m-%d"
+set line-graphics = utf-8
+set git-colors = no
+
+# KEY-BINDING
+# ref: https://github.com/jonas/tig/wiki/Bindings
+
+bind main ! ?git revert %(commit)
+bind main + ?git commit --amend
+bind main B ?git branch "%(prompt Enter new branch name: )" %(commit)
+bind main C ?git commit -v
+bind main H ?git cherry-pick %(commit)
+bind main P ?git push origin %(branch)
+bind main S ?git rebase -i %(commit)^1
+bind main T ?git tag "%(prompt Enter new tag name: )" %(commit)
+
+bind main g     none
+bind main gg    move-first-line
+bind main G     move-last-line
+bind main <C-f> move-page-down
+bind main <C-b> move-page-up
+
+bind stage 1 stage-update-line
+bind stage C ?git commit -v
+bind stage P ?git push origin
+
+bind refs M ?git merge %(branch) --no-ff
+bind refs F ?git merge %(branch) --ff
+bind refs R ?git branch -m %(branch) "%(prompt Enter moved branch name: )"
+bind refs : ?git push %(remote) :%(branch)
+
+bind generic g     none
+bind generic gg    move-first-line
+bind generic G     move-last-line
+bind generic <C-f> move-page-down
+bind generic <C-b> move-page-up
+
+bind generic <Up>    none
+bind generic <Down>  none
+bind generic <Left>  none
+bind generic <Right> none
+
+# COLORSCHEME
+# ref: https://github.com/jonas/tig/blob/master/tigrc
+
+color date        241     default
+color author      241     default
+color title-blur  241     234
+color title-focus 246     234
+color cursor      default 234
+color header      249     default
+color section     110     default
+color status      249     default
+
+color main-local-tag 103 default
+color main-tag       103 default
+color main-remote    065 default
+color main-tracked   065 default
+color main-ref       108 default
+color main-head      108 default underline
+
+color graph-commit 065 default
+color palette-0    137 default
+color palette-1    067 default
+color palette-2    145 default
+
+color 'commit '            248 default
+color 'Refs: '             245 default
+color 'Author: '           241 default
+color 'AuthorDate: '       241 default
+color 'Commit: '           241 default
+color 'CommitDate: '       241 default
+color 'Date: '             241 default
+color '---'                248 default
+color diff-stat            248 default
+color '--- '               103 default
+color '+++ '               103 default
+color 'diff --'            241 default
+color 'old file mode '     245 default
+color 'new file mode '     245 default
+color 'deleted file mode ' 245 default
+color 'index '             241 default
+color diff-chunk           241 default underline
+color diff-add             065 default
+color diff-del             095 default
+
+color help-group  248 default
+color help-action 065 default
+
+color stat.section   065 default
+color stat-staged    108 default
+color stat-unstaged  108 default
+color stat-untracked 108 default

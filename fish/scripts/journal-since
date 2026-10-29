@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+usage() {
+    echo Usage: $(basename $0) DIR [DATE]
+    exit 1
+}
+[ $# -gt 2 ] && usage
+
+DIR=$1
+
+if [ $# -eq 1 ]; then
+    DATE=yesterday
+else
+    DATE=$2
+fi
+
+PREFIX=$(date +%m%d --date="$DATE")
+INCOMPLETES=$(find "$DIR" -type f -regex '.*\.journal_')
+COMBINED="$DIR/$PREFIX-a-journal.log"
+
+for ORIGINAL in $INCOMPLETES; do
+    RENAMED="${ORIGINAL%.journal_}_renamed.journal"
+    cp "$ORIGINAL" "$RENAMED"
+    echo Copied file $(basename "$ORIGINAL") to $(basename "$RENAMED")
+done
+
+echo Combine the journal log file to "$COMBINED"
+journalctl -D "$DIR" --since "$DATE" > "$COMBINED"
+
+read -p "Show ota journal log? (y/n) " yn
+case $yn in
+    [yY])
+        echo journalctl -D "$DIR" -u ota -u ota-vehicle-core -o cat --since "$DATE"
+        journalctl -D "$DIR" -u ota -u ota-vehicle-core -o cat --since "$DATE"
+        ;;
+    *)
+        exit 0
+        ;;
+esac

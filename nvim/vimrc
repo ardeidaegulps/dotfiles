@@ -1,0 +1,67 @@
+scriptencoding utf-8
+syntax on
+filetype plugin indent on
+
+" XDG DIRECTORY SPEC
+set backupdir=$HOME/.cache/vim/backup
+set directory=$HOME/.cache/vim/swap
+set runtimepath=$HOME/.config/nvim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.config/nvim/after
+set undodir=$HOME/.cache/vim/undo
+set viminfo+='1000,n$HOME/.cache/vim/viminfo
+
+" NEOVIM DEFAULTS
+set encoding=utf-8
+set autoindent
+set modeline
+set smarttab
+set wildmenu
+set laststatus=2
+set noshowmode
+set showcmd
+
+" NEOVIM CONFIGURATION
+source ~/.config/nvim/init.vim
+
+" KEYBOARD FIXING
+map! [A    <UP>
+map! [B    <DOWN>
+map! [C    <RIGHT>
+map! [D    <LEFT>
+map! [A  <ESC><UP>
+map! [B  <ESC><DOWN>
+map! [C  <ESC><RIGHT>
+map! [D  <ESC><LEFT>
+map  Oo    <NOP>
+map  Oj    <NOP>
+map  Om    <NOP>
+map  Ok    <NOP>
+map  OM    <NOP>
+map! Oo    /
+map! Oj    *
+map! Om    -
+map! Ok    +
+map! OM    <CR>
+map  [1;2A <UP>
+map  [1;2B <DOWN>
+map  [1;2C <RIGHT>
+map  [1;2D <LEFT>
+map  [1;3A <UP>
+map  [1;3B <DOWN>
+map  [1;3C <RIGHT>
+map  [1;3D <LEFT>
+map  [1;5A <UP>
+map  [1;5B <DOWN>
+map  [1;5C <RIGHT>
+map  [1;5D <LEFT>
+map! [1;2A <UP>
+map! [1;2B <DOWN>
+map! [1;2C <RIGHT>
+map! [1;2D <LEFT>
+map! [1;3A <UP>
+map! [1;3B <DOWN>
+map! [1;3C <RIGHT>
+map! [1;3D <LEFT>
+map! [1;5A <UP>
+map! [1;5B <DOWN>
+map! [1;5C <RIGHT>
+map! [1;5D <LEFT>

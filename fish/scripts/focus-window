@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# https://askubuntu.com/a/562191
+
+usage() {
+    echo Usage: $(basename $0) PATTERN
+    exit 1
+}
+[ $# -ne 1 ] && usage
+
+pattern=$1
+workspace=$(wmctrl -d | grep '\*' | cut -d' ' -f1)
+targets=$(wmctrl -lx | grep -i $pattern | grep " $workspace " | cut -c-10 | sed -ne 's|0x0\+|0x|gp')
+
+if [ -z "$targets" ]; then
+    echo No such window in workspace
+    exit 1
+fi
+
+recents=$(xprop -root _NET_CLIENT_LIST_STACKING | sed -ne 's|.\+#|,|' -e 's|, | |gp' | tac -s ' ')
+
+for candidate in $recents; do
+    if echo $targets | grep -q $candidate; then
+        # wmctrl -lx | grep $candidate  # debug
+        wmctrl -ia $candidate
+        exit 0
+    fi
+done
+
+echo Accidental error
+exit 1

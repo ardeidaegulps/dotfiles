@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+usage() {
+    echo Usage: $(basename $0) FILE
+    exit 1
+}
+[ $# -ne 1 ] && usage
+
+file=$1
+
+sed 's/^BASEURL=/URL=/' "$file" | grep -m 1 '^URL=' | sed 's/^URL=//' | sed 's/\r//' | xargs xdg-open

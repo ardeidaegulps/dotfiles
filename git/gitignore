@@ -1,0 +1,9 @@
+.tags
+.tags.lock
+.tags.temp
+
+.stfolder
+.stignore
+
+.ninja_deps
+.ninja_log

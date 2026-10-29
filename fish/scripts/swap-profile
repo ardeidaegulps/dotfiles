@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+# Switch git identity and SSH key together.
+# Usage: swap-profile [foxtron|private|nycticorax|gulps]   (no arg: show current)
+
+GIT_LOCAL=$HOME/.config/git/local
+SSH_DIR=$HOME/.ssh
+
+declare -A GIT_CONFIG=(
+    [foxtron]=foxtron_config
+    [private]=private_config
+    [nycticorax]=nycticorax_config
+    [gulps]=gulps_config
+)
+declare -A SSH_KEY=(
+    [foxtron]=foxtron_id_rsa
+    [private]=private_id_rsa
+    [nycticorax]=nycticorax_github_ed25519
+    [gulps]=gulps_github_ed25519
+)
+
+profiles=$(printf '%s ' "${!GIT_CONFIG[@]}")
+
+usage() {
+    echo "Usage: $(basename "$0") PROFILE"
+    echo "Profiles: $profiles"
+    exit 1
+}
+
+current() {
+    local git_cur ssh_cur
+    git_cur=$(readlink "$GIT_LOCAL/config")
+    ssh_cur=$(readlink "$SSH_DIR/id_rsa")
+    echo "git: $(basename "${git_cur:-none}")"
+    echo "ssh: $(basename "${ssh_cur:-none}")"
+}
+
+[ $# -eq 0 ] && { current; exit 0; }
+[ $# -ne 1 ] && usage
+
+profile=$1
+[ -z "${GIT_CONFIG[$profile]+x}" ] && { echo "Unknown profile: $profile" >&2; usage; }
+
+git_target=$GIT_LOCAL/${GIT_CONFIG[$profile]}
+key_target=$SSH_DIR/${SSH_KEY[$profile]}
+
+for f in "$git_target" "$key_target" "$key_target.pub"; do
+    [ -e "$f" ] || { echo "Missing file: $f" >&2; exit 1; }
+done
+
+previous=none
+prev_git=$(basename "$(readlink "$GIT_LOCAL/config")" 2>/dev/null)
+for p in "${!GIT_CONFIG[@]}"; do
+    [ "${GIT_CONFIG[$p]}" = "$prev_git" ] && previous=$p
+done
+
+if [ "$previous" = "$profile" ]; then
+    echo "Already on $profile"
+    current
+    exit 0
+fi
+
+ln -sfn "$git_target" "$GIT_LOCAL/config"
+ln -sfn "$key_target" "$SSH_DIR/id_rsa"
+ln -sfn "$key_target.pub" "$SSH_DIR/id_rsa.pub"
+
+echo "Switched from $previous to $profile"
+current

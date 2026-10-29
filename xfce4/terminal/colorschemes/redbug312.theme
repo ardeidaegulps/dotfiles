@@ -1,0 +1,9 @@
+# author: redbug312
+# modified from bitmute.theme by muzieca
+[Scheme]
+Name=redbug312
+ColorBold=#babdb6
+ColorCursor=#8a8a8a
+ColorForeground=#8a8a8a
+ColorBackground=#121212
+ColorPalette=#282828;#b76969;#5f8a5f;#917c66;#66738f;#806896;#688891;#8e8e8e;#494949;#b87e7e;#749174;#9c8b7b;#717b8f;#877499;#758c93;#d3d7cf

@@ -1,0 +1,89 @@
+colorscheme redbug312
+
+set vicmd=nvim
+set syscalls
+set nofollowlinks
+set sortnumbers
+set undolevels=100
+set wildmenu
+set wildstyle=popup
+set scrolloff=4
+set ignorecase
+set smartcase
+set incsearch
+set suggestoptions=normal,visual,view,otherpane,keys,marks,registers
+set fillchars=vborder:│
+set trashdir=~/.local/share/Trash/files/
+
+" noremap  ; :
+nnoremap A cw
+nnoremap I cw<c-a>
+nnoremap R :restart<CR>
+nnoremap f :file&<cr>
+nnoremap w :view<CR>
+vnoremap w :view<CR>gv
+nnoremap <SPACE> tj
+
+nnoremap od :!mkdir<SPACE>''<LEFT>
+nnoremap of :!touch<SPACE>''<LEFT>
+nnoremap yd :!echo -n %d | xsel --clipboard<CR>
+nnoremap yf :!echo -n %c:p | xsel --clipboard<CR>
+
+nnoremap yow :set wrap!<CR>
+nnoremap yon :set number!<CR>
+nnoremap yor :set relativenumber!<CR>
+
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap <C-o> <C-w>o
+nnoremap <C-s> <C-w>s
+nnoremap <C-v> <C-w>v
+
+nnoremap <LEFT>  <NOP>
+nnoremap <DOWN>  <NOP>
+nnoremap <UP>    <NOP>
+nnoremap <RIGHT> <NOP>
+nnoremap <F9>    :!fish %<CR>
+
+cnoreabbrev qa   q
+
+fileviewer */  tree %c -L 1 --dirsfirst
+fileviewer ../ tree %c -L 1 --dirsfirst
+
+" fileviewer *.html elinks -dump %c
+" filextype  *.html,*.htm waterfox %f 2>/dev/null &
+
+" fileviewer *.docx docx2txt %c -
+" fileviewer *.odt odt2txt %c -
+
+" filetype   *.csv,*.xlsx sc-im %c
+" fileviewer *.csv sed "s/,,,,/,,-,,/g;s/,,/ /g" %c | column -t | sed "s/ - /  /g" | cut -c -%pw
+
+fileviewer *.mp3 eyeD3 --no-color
+filextype  *.mp3 parole
+
+" filev      *.wav,*.mp3,*.flac,*.m4a,*.wma,*.ape,*.ac3,*.og[agx],*.spx,*.opus mediainfo
+" filetype   *.wav,*.mp3,*.flac,*.m4a,*.wma,*.ape,*.ac3,*.og[agx],*.spx,*.opus mpv --no-audio-display --input-ipc-server=/tmp/mpvsoc$(date +%%s) %c
+
+" filextype  *.pdf,*.ps,*.eps,*.ps.gz,*.djvu,*.epub atril %f 2> /dev/null &
+" fileviewer *.pdf pdftotext -l 1 -nopgbrk %c -
+
+" fileviewer *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.qt,*.divx,*.as[fx],*mp3,*.flac mediainfo
+" filextype  *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,*.as[fx] parole %f 2>/dev/null &,
+
+" fileview   *.zip,*.rar,*.tar.gz atool -l %f
+" filetype   *.zip,*.rar,*.tar.gz ext %f
+
+" fileviewer *.[1-8] man ./%c | col -b
+" filetype   *.[1-8] man ./%c
+
+" fileviewer *.jpg,*.jpeg,*.png,*.ico mediainfo
+" filextype  *.bmp,*.jpg,*.jpeg,*.png,*.ico,*.gif,*.xpm ristretto
+
+" filextype  *.svg inkscape %f 2>/dev/null &
+" filextype  *.xcf gimp %f 2>/dev/null &
+
+set vifminfo=dhistory,chistory,tui,shistory,phistory,fhistory,dirstack,registers,bookmarks,bmarks
+" vim: filetype=vifm

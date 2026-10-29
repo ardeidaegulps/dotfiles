@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+usage() {
+    echo Usage: $(basename $0) [URL]
+    exit 1
+}
+[ $# -gt 1 ] && usage
+
+if [ $# -eq 0 ]; then
+    read -p "Youtube URL: " url
+else
+    url=$1
+fi
+
+if ! command -v yt-dlp &> /dev/null; then
+    read -p "Download yt-dlp to $HOME/.local/bin? (y/n) " yn
+    case $yn in
+        [yY])
+            wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O $HOME/.local/bin/yt-dlp
+            chmod +x $HOME/.local/bin/yt-dlp
+            ;;
+        *)
+            echo You can find yt-dlp at https://github.com/yt-dlp/yt-dlp
+            exit 0
+            ;;
+    esac
+fi
+
+format=$(echo $url | sed 's|&.\+$||' | xargs yt-dlp -F | grep 'mp4a' | tail -n1 | cut -f 1 -d ' ')  # usually 300
+stream=$(echo $url | sed 's|&.\+$||' | xargs yt-dlp -g -f $format)
+vtitle=$(echo $url | sed 's|&.\+$||' | xargs yt-dlp -e)
+
+if [ -z "$stream" ]; then
+    zenity --error --title='watch-youtube' --text='無法播放影片' --width=80
+    echo Failed fetching video stream url
+    exit 1
+fi
+
+echo Video title: $vtitle
+parole -i $stream > /tmp/watch-youtube.log 2> /tmp/watch-youtube.err
+

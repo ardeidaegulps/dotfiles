@@ -1,0 +1,35 @@
+[include]
+    path = ~/.config/git/local/config
+[core]
+    editor = nvim
+    quotepath = false
+    symlinks = true
+[init]
+    templatedir = ~/.config/git/template
+	defaultBranch = main
+[alias]
+    b = branch
+    c = checkout
+    s = status --ignore-submodules
+    amend = commit --amend
+    cached = difftool --cached
+    modified = difftool --
+    redo = reset 'HEAD@{1}'
+    today = commit --amend --reset-author --date=now --no-edit
+    tree = log --graph --decorate --pretty=oneline --abbrev-commit --all
+    undo = reset HEAD~1 --soft
+    untracked = ls-files --others --exclude-standard
+    update = fetch --all --prune
+[diff]
+    tool = vimdiff
+[pull]
+    ff = true
+[merge]
+    tool = vimdiff
+    ff = false
+[mergetool]
+    prompt = true
+[mergetool "vimdiff"]
+    cmd = nvim -d $LOCAL $REMOTE -c '$wincmd w'
+[safe]
+	directory = /home/redbug312/mnt/overlay-orin-pdk

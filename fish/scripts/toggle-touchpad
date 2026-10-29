@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# https://askubuntu.com/a/813612
+
+usage() {
+    echo Usage: $(basename $0)
+    exit 1
+}
+[ $# -gt 0 ] && usage
+
+papirus=/usr/share/icons/Papirus/48x48/status
+touchpad=$(xinput --list | sed -n '/Touchpad/s|.\+id=\([0-9]\+\).\+|\1|p')  # 11 here
+
+if [ -z "$touchpad" ]; then
+    echo No touchpad device connected
+    exit 1
+fi
+
+enabled=$(xinput list-props $touchpad | sed -n '/Device Enabled/s|.\+:\s*\(.\+\)|\1|p')
+
+case $enabled in
+    0)
+        action=enable
+        icon=input-touchpad-on.svg
+        text=觸控板開啟
+        ;;
+    1)
+        action=disable
+        icon=input-touchpad-off.svg
+        text=觸控板關閉
+        ;;
+esac
+
+xinput $action $touchpad
+notify-send -u low -i $papirus/$icon $text
